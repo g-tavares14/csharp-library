@@ -6,9 +6,26 @@ public class Library
 
     public void AddBook(Book book)
     {
+        if (string.IsNullOrWhiteSpace(book.Title) || string.IsNullOrWhiteSpace(book.Author) ||
+            string.IsNullOrWhiteSpace(book.Genre))
+        {
+            Console.WriteLine("Título, autor e gênero são obrigatórios");
+            return;
+        }
+
+        foreach (var uniqueBook in books.Values)
+        {
+            if (string.Equals(book.Title, uniqueBook.Title, StringComparison.InvariantCultureIgnoreCase))
+            {
+                Console.WriteLine($"O livro {book.Title} já existe");
+                return;
+            }
+        }
+
         Guid bookId = Guid.NewGuid();
         book.Id = bookId;
         books.Add(bookId, book);
+        Console.WriteLine($"O livro {book.Title} foi adicionado");
     }
 
     public void ListBooks()

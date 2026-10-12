@@ -32,6 +32,12 @@ public class Library
 
     public void ListBooks()
     {
+        if (books.Count == 0)
+        {
+            Console.WriteLine("Nenhum livro encontrado a lista está vazia");
+            return;
+        }
+
         foreach (var book in books.Values)
         {
             string status = (book.Available ? "Disponível" : $"Emprestado até o dia {book.ReturnDate}");

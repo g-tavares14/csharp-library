@@ -6,8 +6,7 @@ public class Book
     public string Title { get; set; } = "";
     public string Author { get; set; } = "";
     public string Genre { get; set; } = "";
-    public DateTime RegistrationDate { get; set; } = DateTime.Now;
-    public DateTime ReturnDate { get; set; }
+    public DateOnly RegistrationDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    public DateOnly ReturnDate { get; set; }
     public bool Available { get; set; } = true;
-
 }

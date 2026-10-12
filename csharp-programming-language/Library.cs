@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices.JavaScript;
+
 namespace csharp_programming_language;
 
 public class Library
@@ -32,8 +34,10 @@ public class Library
     {
         foreach (var book in books.Values)
         {
+            string status = (book.Available ? "Disponível" : $"Emprestado até o dia {book.ReturnDate}");
+
             Console.WriteLine(
-                $"Titulo: {book.Title}, Autor: {book.Author}, Genero: {book.Genre}, Status: {(book.Available ? "Disponível" : "Emprestado")}");
+                $"Titulo: {book.Title}, Autor: {book.Author}, Genero: {book.Genre},  Status: {status}");
         }
     }
 
@@ -60,7 +64,7 @@ public class Library
         }
 
         book.Available = false;
-        book.ReturnDate = DateTime.Now.AddDays(7);
+        book.ReturnDate = DateOnly.FromDateTime(DateTime.Now.AddDays(7));
         return true;
     }
 
@@ -74,7 +78,7 @@ public class Library
         }
 
         book.Available = true;
-        book.ReturnDate = DateTime.Now;
+        book.ReturnDate = DateOnly.FromDateTime(DateTime.Now);
         return true;
     }
 }

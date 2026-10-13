@@ -10,7 +10,7 @@ class Program
 
         do
         {
-            Console.WriteLine("1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 0 - Sair");
+            Console.WriteLine("1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 7 - Editar | 0 - Sair");
 
             while (!int.TryParse(Console.ReadLine(), out option))
             {
@@ -90,6 +90,18 @@ class Program
                     Console.WriteLine("Remover um livro: ");
                     string deleteTitle = Console.ReadLine() ?? "";
                     library.DeleteBook(deleteTitle);
+
+                    break;
+                case 7:
+                    Console.WriteLine("Editar um livro: ");
+                    string updateTitle = Console.ReadLine() ?? "";
+                    Console.WriteLine("Novo título do livro: ");
+                    string newTitle = Console.ReadLine() ?? "";
+                    Console.WriteLine("Novo autor do livro: ");
+                    string newAuthor = Console.ReadLine() ?? "";
+                    Console.WriteLine("Novo gênero do livro: ");
+                    string newGenre = Console.ReadLine() ?? "";
+                    library.UpdateBook(updateTitle, newTitle, newAuthor, newGenre);
 
                     break;
                 case 0:

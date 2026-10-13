@@ -1,14 +1,9 @@
 namespace csharp_programming_language;
 
-public class BookManager
+public class BookManager(LoanManager loanManager)
 {
     private readonly Dictionary<Guid, Book> _books = new Dictionary<Guid, Book>();
-    private readonly LoanManager _loanManager;
-
-    public BookManager(LoanManager loanManager)
-    {
-        _loanManager = loanManager;
-    }
+    private readonly LoanManager _loanManager = loanManager;
 
     private bool HasRequiredFields(string title, string author, string genre)
     {

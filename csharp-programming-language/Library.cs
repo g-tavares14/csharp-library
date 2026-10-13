@@ -116,14 +116,7 @@ public class Library
         string bookTitle = Prompt(" Buscar um livro: ");
         Book? found = _bookManager.SearchBook(bookTitle);
 
-        if (found == null)
-        {
-            Console.WriteLine("Nenhum livro encontrado");
-        }
-        else
-        {
-            Console.WriteLine(found.Title);
-        }
+        Console.WriteLine(found == null ? "Nenhum livro encontrado" : found.Title);
     }
 
     private void BorrowBook()

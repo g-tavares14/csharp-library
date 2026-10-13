@@ -177,8 +177,12 @@ public class Library
 
                     foreach (var activeLoan in activeLoans)
                     {
+                        string activeLate = activeLoan.DaysOverdue(today) > 0
+                            ? $" - ATRASADO há {activeLoan.DaysOverdue(today)} dia(s), multa de R$ {activeLoan.CalculateFine(today):F2}"
+                            : "";
+
                         Console.WriteLine(
-                            $"{activeLoan.User.Name} está com o livro {activeLoan.Book.Title} até {activeLoan.DueDate}");
+                            $"{activeLoan.User.Name} está com o livro {activeLoan.Book.Title} até {activeLoan.DueDate}{activeLate}");
                     }
 
                     break;
@@ -203,7 +207,11 @@ public class Library
 
                         foreach (var userLoan in userLoans)
                         {
-                            Console.WriteLine($"{userLoan.Book.Title} até {userLoan.DueDate}");
+                            string userLate = userLoan.DaysOverdue(today) > 0
+                                ? $" - ATRASADO há {userLoan.DaysOverdue(today)} dia(s), multa de R$ {userLoan.CalculateFine(today):F2}"
+                                : "";
+
+                            Console.WriteLine($"{userLoan.Book.Title} até {userLoan.DueDate}{userLate}");
                         }
                     }
 

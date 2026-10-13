@@ -61,15 +61,8 @@ public class BookManager(LoanManager loanManager)
             return null;
         }
 
-        foreach (var book in _books.Values)
-        {
-            if (book.Title.Contains(bookTitle, StringComparison.InvariantCultureIgnoreCase))
-            {
-                return book;
-            }
-        }
-
-        return null;
+        return _books.Values.FirstOrDefault(book =>
+            book.Title.Contains(bookTitle, StringComparison.InvariantCultureIgnoreCase));
     }
 
     public void DeleteBook(string bookTitle)

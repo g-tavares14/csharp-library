@@ -12,13 +12,11 @@ public class UserManager
             return;
         }
 
-        foreach (var existingUser in _users.Values)
+        if (_users.Values.Any(existingUser =>
+                string.Equals(user.Email, existingUser.Email, StringComparison.InvariantCultureIgnoreCase)))
         {
-            if (string.Equals(user.Email, existingUser.Email, StringComparison.InvariantCultureIgnoreCase))
-            {
-                Console.WriteLine($"O email {user.Email} já está cadastrado");
-                return;
-            }
+            Console.WriteLine($"O email {user.Email} já está cadastrado");
+            return;
         }
 
         _users.Add(user.Id, user);
@@ -40,14 +38,7 @@ public class UserManager
 
     public User? SearchUser(string email)
     {
-        foreach (var user in _users.Values)
-        {
-            if (user.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase))
-            {
-                return user;
-            }
-        }
-
-        return null;
+        return _users.Values.FirstOrDefault(existingUser =>
+            string.Equals(existingUser.Email, email, StringComparison.InvariantCultureIgnoreCase));
     }
 }

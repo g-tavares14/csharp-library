@@ -80,9 +80,11 @@ public class Library
 
     private static string OverdueText(Loan loan, DateOnly today)
     {
-        if (loan.DaysOverdue(today) > 0)
+        var daysOverdue = loan.DaysOverdue(today);
+
+        if (daysOverdue > 0)
         {
-            return $" - ATRASADO há {loan.DaysOverdue(today)} dia(s), multa de R$ {loan.CalculateFine(today):F2}";
+            return $" - ATRASADO há {daysOverdue} dia(s), multa de R$ {loan.CalculateFine(today):F2}";
         }
 
         return "";
@@ -167,10 +169,12 @@ public class Library
 
         Console.WriteLine($"Livro {bookToReturn.Title} devolvido!");
 
-        if (returnedLoan.DaysOverdue(today) > 0)
+        var daysOverdue = returnedLoan.DaysOverdue(today);
+
+        if (daysOverdue > 0)
         {
             Console.WriteLine(
-                $"Devolução com {returnedLoan.DaysOverdue(today)} dia(s) de atraso. Multa: R$ {returnedLoan.CalculateFine(today):F2}");
+                $"Devolução com {daysOverdue} dia(s) de atraso. Multa: R$ {returnedLoan.CalculateFine(today):F2}");
         }
     }
 

@@ -1,0 +1,40 @@
+namespace csharp_programming_language;
+
+public class UserManager
+{
+    private Dictionary<Guid, User> users = new Dictionary<Guid, User>();
+
+    public void AddUser(User user)
+    {
+        if (string.IsNullOrWhiteSpace(user.Name) || string.IsNullOrWhiteSpace(user.Email))
+        {
+            Console.WriteLine("Nome e email são obrigatórios");
+            return;
+        }
+
+        foreach (var existingUser in users.Values)
+        {
+            if (string.Equals(user.Email, existingUser.Email, StringComparison.InvariantCultureIgnoreCase))
+            {
+                Console.WriteLine($"O email {user.Email} já está cadastrado");
+                return;
+            }
+        }
+
+        users.Add(user.Id, user);
+        Console.WriteLine($"O usuário {user.Name} foi cadastrado como {user.Role}");
+    }
+
+    public void ListUsers()
+    {
+        if (users.Count == 0)
+        {
+            Console.WriteLine("Nenhum usuário cadastrado");
+        }
+
+        foreach (var user in users.Values)
+        {
+            Console.WriteLine($"Usuário é {user.Name} com email {user.Email} e com role {user.Role}");
+        }
+    }
+}

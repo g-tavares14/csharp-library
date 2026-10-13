@@ -38,12 +38,6 @@ public class LoanManager
     {
         List<Loan> activeLoans = new List<Loan>();
 
-        if (loans.Count == 0)
-        {
-            Console.WriteLine("Sem nenhum livro emprestado");
-        }
-
-
         foreach (var loan in loans.Values)
         {
             if (loan.ReturnDate == null && (user == null || loan.User.Id == user.Id))

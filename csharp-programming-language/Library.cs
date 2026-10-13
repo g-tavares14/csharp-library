@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
-
 namespace csharp_programming_language;
 
 public class Library
@@ -105,5 +103,44 @@ public class Library
 
         books.Remove(book.Id);
         Console.WriteLine($"O livro {book.Title} foi apagado");
+    }
+
+    public void UpdateBook(string bookTitle, string newTitle, string newAuthor, string newGenre)
+    {
+        Book? book = SearchBook(bookTitle);
+
+        if (book == null)
+        {
+            Console.WriteLine("Nenhum livro encontrado");
+            return;
+        }
+
+        if (!book.Available)
+        {
+            Console.WriteLine($"O livro {book.Title} não pode ser atualizado porque ele está emprestado.");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(newTitle) || string.IsNullOrWhiteSpace(newAuthor) ||
+            string.IsNullOrWhiteSpace(newGenre))
+        {
+            Console.WriteLine("Título, autor e gênero são obrigatórios");
+            return;
+        }
+
+        foreach (var uniqueBook in books.Values)
+        {
+            if (uniqueBook.Id != book.Id &&
+                string.Equals(newTitle, uniqueBook.Title, StringComparison.InvariantCultureIgnoreCase))
+            {
+                Console.WriteLine($"O livro {newTitle} já existe");
+                return;
+            }
+        }
+
+        book.Title = newTitle;
+        book.Author = newAuthor;
+        book.Genre = newGenre;
+        Console.WriteLine($"O livro {book.Title} foi atualizado");
     }
 }

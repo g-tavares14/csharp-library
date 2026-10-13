@@ -10,22 +10,38 @@ public class BookManager
         this.loanManager = loanManager;
     }
 
+    private bool HasRequiredFields(string title, string author, string genre)
+    {
+        return !string.IsNullOrWhiteSpace(title) && !string.IsNullOrWhiteSpace(author) &&
+               !string.IsNullOrWhiteSpace(genre);
+    }
+
+    private bool TitleExists(string title, Guid? ignoreId = null)
+    {
+        foreach (var uniqueBook in books.Values)
+        {
+            if (uniqueBook.Id != ignoreId &&
+                string.Equals(title, uniqueBook.Title, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void AddBook(Book book)
     {
-        if (string.IsNullOrWhiteSpace(book.Title) || string.IsNullOrWhiteSpace(book.Author) ||
-            string.IsNullOrWhiteSpace(book.Genre))
+        if (!HasRequiredFields(book.Title, book.Author, book.Genre))
         {
             Console.WriteLine("Título, autor e gênero são obrigatórios");
             return;
         }
 
-        foreach (var uniqueBook in books.Values)
+        if (TitleExists(book.Title))
         {
-            if (string.Equals(book.Title, uniqueBook.Title, StringComparison.InvariantCultureIgnoreCase))
-            {
-                Console.WriteLine($"O livro {book.Title} já existe");
-                return;
-            }
+            Console.WriteLine($"O livro {book.Title} já existe");
+            return;
         }
 
         books.Add(book.Id, book);
@@ -103,21 +119,16 @@ public class BookManager
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(newTitle) || string.IsNullOrWhiteSpace(newAuthor) ||
-            string.IsNullOrWhiteSpace(newGenre))
+        if (!HasRequiredFields(newTitle, newAuthor, newGenre))
         {
             Console.WriteLine("Título, autor e gênero são obrigatórios");
             return;
         }
 
-        foreach (var uniqueBook in books.Values)
+        if (TitleExists(newTitle, book.Id))
         {
-            if (uniqueBook.Id != book.Id &&
-                string.Equals(newTitle, uniqueBook.Title, StringComparison.InvariantCultureIgnoreCase))
-            {
-                Console.WriteLine($"O livro {newTitle} já existe");
-                return;
-            }
+            Console.WriteLine($"O livro {newTitle} já existe");
+            return;
         }
 
         book.Title = newTitle;

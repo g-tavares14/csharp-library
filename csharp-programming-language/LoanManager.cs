@@ -6,15 +6,7 @@ public class LoanManager
 
     public Loan? GetActiveLoan(Book book)
     {
-        foreach (var loan in _loans.Values)
-        {
-            if (loan.Book.Id == book.Id && loan.ReturnDate == null)
-            {
-                return loan;
-            }
-        }
-
-        return null;
+        return _loans.Values.SingleOrDefault(loan => loan.Book.Id == book.Id && loan.ReturnDate == null);
     }
 
     public bool IsAvailable(Book book)

@@ -34,7 +34,7 @@ public class LoanManager
         return false;
     }
 
-    public List<Loan> GetActiveLoans()
+    public List<Loan> GetActiveLoans(User? user = null)
     {
         List<Loan> activeLoans = new List<Loan>();
 
@@ -46,10 +46,10 @@ public class LoanManager
 
         foreach (var loan in loans.Values)
         {
-            if (loan.ReturnDate == null)
+            if (loan.ReturnDate == null && (user == null || loan.User.Id == user.Id))
             {
                 activeLoans.Add(loan);
-            } 
+            }
         }
 
         return activeLoans;

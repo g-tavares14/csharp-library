@@ -37,4 +37,17 @@ public class UserManager
             Console.WriteLine($"Usuário é {user.Name} com email {user.Email} e com role {user.Role}");
         }
     }
+
+    public User? SearchUser(string email)
+    {
+        foreach (var user in users.Values)
+        {
+            if (user.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return user;
+            }
+        }
+
+        return null;
+    }
 }

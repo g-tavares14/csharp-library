@@ -196,16 +196,9 @@ public class Library
         var userEmail = Prompt("Email do usuário: ");
         var isAdmin = Prompt("É administrador? (s/n): ");
 
-        User user;
-
-        if (isAdmin.Trim().ToLower() == "s")
-        {
-            user = new Admin { Name = userName, Email = userEmail };
-        }
-        else
-        {
-            user = new User { Name = userName, Email = userEmail };
-        }
+        var user = string.Equals(isAdmin.Trim(), "s", StringComparison.OrdinalIgnoreCase)
+            ? new Admin { Name = userName, Email = userEmail }
+            : new User { Name = userName, Email = userEmail };
 
         _userManager.AddUser(user);
     }

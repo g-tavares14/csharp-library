@@ -18,7 +18,7 @@ public class Library
         do
         {
             Console.WriteLine(
-                "1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 7 - Editar | 8 - Cadastrar usuário | 9 - Listar usuários | 10 - Empréstimos ativos | 11 - Empréstimos de um usuário | 0 - Sair");
+                "1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 7 - Editar | 8 - Cadastrar usuário | 9 - Listar usuários | 10 - Empréstimos ativos | 11 - Empréstimos de um usuário | 12 - Filtrar livros | 0 - Sair");
 
             while (!int.TryParse(Console.ReadLine(), out option))
             {
@@ -61,6 +61,9 @@ public class Library
                     break;
                 case 11:
                     ShowUserLoans(today);
+                    break;
+                case 12:
+                    FilterBooks();
                     break;
                 case 0:
                     Console.WriteLine("Saindo...");
@@ -119,6 +122,39 @@ public class Library
         var found = _bookManager.SearchBook(bookTitle);
 
         Console.WriteLine(found == null ? "Nenhum livro encontrado" : found.Title);
+    }
+
+    private void FilterBooks()
+    {
+        Console.WriteLine("Filtrar livros");
+        var fieldOption = Prompt("Filtrar por: 1 - Título | 2 - Autor | 3 - Gênero");
+
+        BookFilter? filter = fieldOption.Trim() switch
+        {
+            "1" => BookFilter.Title,
+            "2" => BookFilter.Author,
+            "3" => BookFilter.Genre,
+            _ => null
+        };
+
+        if (filter == null)
+        {
+            Console.WriteLine("Opção inválida");
+            return;
+        }
+
+        var text = Prompt("Texto a buscar: ");
+        var filteredBooks = _bookManager.FilterBy(filter.Value, text);
+
+        if (filteredBooks.Count == 0)
+        {
+            Console.WriteLine("Nenhum livro encontrado");
+        }
+
+        foreach (var filteredBook in filteredBooks)
+        {
+            Console.WriteLine(_bookManager.DescribeBook(filteredBook));
+        }
     }
 
     private void BorrowBook()

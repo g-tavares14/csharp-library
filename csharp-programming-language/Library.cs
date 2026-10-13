@@ -25,7 +25,7 @@ public class Library
                 Console.WriteLine("Digite um número válido.");
             }
 
-            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            var today = DateOnly.FromDateTime(DateTime.Now);
 
             switch (option)
             {
@@ -91,11 +91,11 @@ public class Library
     private void RegisterBook()
     {
         Console.WriteLine("Cadastrar um livro");
-        string title = Prompt("Título do livro: ");
-        string author = Prompt("Autor do livro: ");
-        string genre = Prompt("Gênero do livro: ");
+        var title = Prompt("Título do livro: ");
+        var author = Prompt("Autor do livro: ");
+        var genre = Prompt("Gênero do livro: ");
 
-        Book book = new Book
+        var book = new Book
         {
             Title = title,
             Author = author,
@@ -113,19 +113,19 @@ public class Library
 
     private void SearchBook()
     {
-        string bookTitle = Prompt(" Buscar um livro: ");
-        Book? found = _bookManager.SearchBook(bookTitle);
+        var bookTitle = Prompt(" Buscar um livro: ");
+        var found = _bookManager.SearchBook(bookTitle);
 
         Console.WriteLine(found == null ? "Nenhum livro encontrado" : found.Title);
     }
 
     private void BorrowBook()
     {
-        string borrowTitle = Prompt("Emprestar um livro: ");
-        string borrowEmail = Prompt("Email do usuário: ");
+        var borrowTitle = Prompt("Emprestar um livro: ");
+        var borrowEmail = Prompt("Email do usuário: ");
 
-        Book? bookToBorrow = _bookManager.SearchBook(borrowTitle);
-        User? borrower = _userManager.SearchUser(borrowEmail);
+        var bookToBorrow = _bookManager.SearchBook(borrowTitle);
+        var borrower = _userManager.SearchUser(borrowEmail);
 
         if (bookToBorrow == null)
         {
@@ -147,9 +147,9 @@ public class Library
 
     private void ReturnBook(DateOnly today)
     {
-        string returnTitle = Prompt("Devolver um livro: ");
+        var returnTitle = Prompt("Devolver um livro: ");
 
-        Book? bookToReturn = _bookManager.SearchBook(returnTitle);
+        var bookToReturn = _bookManager.SearchBook(returnTitle);
 
         if (bookToReturn == null)
         {
@@ -157,7 +157,7 @@ public class Library
             return;
         }
 
-        Loan? returnedLoan = _loanManager.ReturnBook(bookToReturn);
+        var returnedLoan = _loanManager.ReturnBook(bookToReturn);
 
         if (returnedLoan == null)
         {
@@ -176,25 +176,25 @@ public class Library
 
     private void DeleteBook()
     {
-        string deleteTitle = Prompt("Remover um livro: ");
+        var deleteTitle = Prompt("Remover um livro: ");
         _bookManager.DeleteBook(deleteTitle);
     }
 
     private void UpdateBook()
     {
-        string updateTitle = Prompt("Editar um livro: ");
-        string newTitle = Prompt("Novo título do livro: ");
-        string newAuthor = Prompt("Novo autor do livro: ");
-        string newGenre = Prompt("Novo gênero do livro: ");
+        var updateTitle = Prompt("Editar um livro: ");
+        var newTitle = Prompt("Novo título do livro: ");
+        var newAuthor = Prompt("Novo autor do livro: ");
+        var newGenre = Prompt("Novo gênero do livro: ");
         _bookManager.UpdateBook(updateTitle, newTitle, newAuthor, newGenre);
     }
 
     private void RegisterUser()
     {
         Console.WriteLine("Cadastrar um usuário");
-        string userName = Prompt("Nome do usuário: ");
-        string userEmail = Prompt("Email do usuário: ");
-        string isAdmin = Prompt("É administrador? (s/n): ");
+        var userName = Prompt("Nome do usuário: ");
+        var userEmail = Prompt("Email do usuário: ");
+        var isAdmin = Prompt("É administrador? (s/n): ");
 
         User user;
 
@@ -219,7 +219,7 @@ public class Library
     private void ShowActiveLoans(DateOnly today)
     {
         Console.WriteLine("Empréstimos ativos");
-        List<Loan> activeLoans = _loanManager.GetActiveLoans();
+        var activeLoans = _loanManager.GetActiveLoans();
 
         if (activeLoans.Count == 0)
         {
@@ -236,8 +236,8 @@ public class Library
     private void ShowUserLoans(DateOnly today)
     {
         Console.WriteLine("Empréstimos de um usuário");
-        string loansEmail = Prompt("Email do usuário: ");
-        User? loansUser = _userManager.SearchUser(loansEmail);
+        var loansEmail = Prompt("Email do usuário: ");
+        var loansUser = _userManager.SearchUser(loansEmail);
 
         if (loansUser == null)
         {
@@ -245,7 +245,7 @@ public class Library
             return;
         }
 
-        List<Loan> userLoans = _loanManager.GetActiveLoans(loansUser);
+        var userLoans = _loanManager.GetActiveLoans(loansUser);
 
         if (userLoans.Count == 0)
         {

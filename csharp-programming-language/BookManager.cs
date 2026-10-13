@@ -2,8 +2,8 @@ namespace csharp_programming_language;
 
 public class BookManager
 {
-    private Dictionary<Guid, Book> _books = new Dictionary<Guid, Book>();
-    private LoanManager _loanManager;
+    private readonly Dictionary<Guid, Book> _books = new Dictionary<Guid, Book>();
+    private readonly LoanManager _loanManager;
 
     public BookManager(LoanManager loanManager)
     {
@@ -18,16 +18,9 @@ public class BookManager
 
     private bool TitleExists(string title, Guid? ignoreId = null)
     {
-        foreach (var uniqueBook in _books.Values)
-        {
-            if (uniqueBook.Id != ignoreId &&
-                string.Equals(title, uniqueBook.Title, StringComparison.InvariantCultureIgnoreCase))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return _books.Values.Any(uniqueBook =>
+            uniqueBook.Id != ignoreId &&
+            string.Equals(title, uniqueBook.Title, StringComparison.InvariantCultureIgnoreCase));
     }
 
     public void AddBook(Book book)

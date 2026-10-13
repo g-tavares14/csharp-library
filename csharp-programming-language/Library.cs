@@ -12,7 +12,7 @@ public class Library
 
         do
         {
-            Console.WriteLine("1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 7 - Editar | 8 - Cadastrar usuário | 9 - Listar usuários | 0 - Sair");
+            Console.WriteLine("1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 7 - Editar | 8 - Cadastrar usuário | 9 - Listar usuários | 10 - Empréstimos ativos | 0 - Sair");
 
             while (!int.TryParse(Console.ReadLine(), out option))
             {
@@ -151,6 +151,22 @@ public class Library
                 case 9:
                     Console.WriteLine("Lista de usuários");
                     userManager.ListUsers();
+
+                    break;
+                case 10:
+                    Console.WriteLine("Empréstimos ativos");
+                    List<Loan> activeLoans = loanManager.GetActiveLoans();
+
+                    if (activeLoans.Count == 0)
+                    {
+                        Console.WriteLine("Nenhum empréstimo ativo");
+                    }
+
+                    foreach (var activeLoan in activeLoans)
+                    {
+                        Console.WriteLine(
+                            $"{activeLoan.User.Name} está com o livro {activeLoan.Book.Title} até {activeLoan.DueDate}");
+                    }
 
                     break;
                 case 0:

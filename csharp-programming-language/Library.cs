@@ -22,9 +22,7 @@ public class Library
             }
         }
 
-        Guid bookId = Guid.NewGuid();
-        book.Id = bookId;
-        books.Add(bookId, book);
+        books.Add(book.Id, book);
         Console.WriteLine($"O livro {book.Title} foi adicionado");
     }
 

@@ -6,7 +6,7 @@ class Program
     {
         int option;
 
-        Library library = new Library();
+        BookManager bookManager = new BookManager();
         UserManager userManager = new UserManager();
         LoanManager loanManager = new LoanManager();
 
@@ -37,18 +37,18 @@ class Program
                         Genre = genre,
                     };
 
-                    library.AddBook(book);
+                    bookManager.AddBook(book);
 
                     break;
                 case 2:
                     Console.WriteLine("Listar um livro");
-                    library.ListBooks();
+                    bookManager.ListBooks();
 
                     break;
                 case 3:
                     Console.WriteLine(" Buscar um livro: ");
                     string bookTitle = Console.ReadLine() ?? "";
-                    Book? found = library.SearchBook(bookTitle);
+                    Book? found = bookManager.SearchBook(bookTitle);
 
                     if (found == null)
                     {
@@ -66,7 +66,7 @@ class Program
                     Console.WriteLine("Email do usuário: ");
                     string borrowEmail = Console.ReadLine() ?? "";
 
-                    Book? bookToBorrow = library.SearchBook(borrowTitle);
+                    Book? bookToBorrow = bookManager.SearchBook(borrowTitle);
                     User? borrower = userManager.SearchUser(borrowEmail);
 
                     if (bookToBorrow == null)
@@ -91,7 +91,7 @@ class Program
                     Console.WriteLine("Devolver um livro: ");
                     string returnTitle = Console.ReadLine() ?? "";
 
-                    Book? bookToReturn = library.SearchBook(returnTitle);
+                    Book? bookToReturn = bookManager.SearchBook(returnTitle);
 
                     if (bookToReturn == null)
                     {
@@ -110,7 +110,7 @@ class Program
                 case 6:
                     Console.WriteLine("Remover um livro: ");
                     string deleteTitle = Console.ReadLine() ?? "";
-                    library.DeleteBook(deleteTitle);
+                    bookManager.DeleteBook(deleteTitle);
 
                     break;
                 case 7:
@@ -122,7 +122,7 @@ class Program
                     string newAuthor = Console.ReadLine() ?? "";
                     Console.WriteLine("Novo gênero do livro: ");
                     string newGenre = Console.ReadLine() ?? "";
-                    library.UpdateBook(updateTitle, newTitle, newAuthor, newGenre);
+                    bookManager.UpdateBook(updateTitle, newTitle, newAuthor, newGenre);
 
                     break;
                 case 8:

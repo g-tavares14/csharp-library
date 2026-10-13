@@ -1,6 +1,6 @@
 namespace csharp_programming_language;
 
-public class Library
+public class BookManager
 {
     private Dictionary<Guid, Book> books = new Dictionary<Guid, Book>();
 
@@ -54,34 +54,6 @@ public class Library
         }
 
         return null;
-    }
-
-    public bool BorrowBook(string bookTitle)
-    {
-        Book? book = SearchBook(bookTitle);
-
-        if (book == null || !book.Available)
-        {
-            return false;
-        }
-
-        book.Available = false;
-        book.ReturnDate = DateOnly.FromDateTime(DateTime.Now.AddDays(7));
-        return true;
-    }
-
-    public bool ReturnBook(string bookTitle)
-    {
-        Book? book = SearchBook(bookTitle);
-
-        if (book == null || book.Available)
-        {
-            return false;
-        }
-
-        book.Available = true;
-        book.ReturnDate = DateOnly.FromDateTime(DateTime.Now);
-        return true;
     }
 
     public void DeleteBook(string bookTitle)

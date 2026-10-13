@@ -4,7 +4,7 @@ class Program
 {
     static void Main()
     {
-        Library library = new Library();
+        var library = new Library();
         library.Run();
     }
 }

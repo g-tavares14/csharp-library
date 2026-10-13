@@ -13,8 +13,8 @@ public class Loan
 
     public int DaysOverdue(DateOnly today)
     {
-        DateOnly end = ReturnDate ?? today;
-        int days = end.DayNumber - DueDate.DayNumber;
+        var end = ReturnDate ?? today;
+        var days = end.DayNumber - DueDate.DayNumber;
         return days > 0 ? days : 0;
     }
 

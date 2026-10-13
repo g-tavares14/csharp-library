@@ -46,8 +46,8 @@ public class BookManager(LoanManager loanManager)
 
         foreach (var book in _books.Values)
         {
-            Loan? activeLoan = _loanManager.GetActiveLoan(book);
-            string status = (activeLoan == null ? "Disponível" : $"Emprestado até o dia {activeLoan.DueDate}");
+            var activeLoan = _loanManager.GetActiveLoan(book);
+            var status = (activeLoan == null ? "Disponível" : $"Emprestado até o dia {activeLoan.DueDate}");
 
             Console.WriteLine(
                 $"Titulo: {book.Title}, Autor: {book.Author}, Genero: {book.Genre},  Status: {status}");
@@ -67,7 +67,7 @@ public class BookManager(LoanManager loanManager)
 
     public void DeleteBook(string bookTitle)
     {
-        Book? book = SearchBook(bookTitle);
+        var book = SearchBook(bookTitle);
         if (book == null)
         {
             Console.WriteLine("Nenhum livro encontrado");
@@ -86,7 +86,7 @@ public class BookManager(LoanManager loanManager)
 
     public void UpdateBook(string bookTitle, string newTitle, string newAuthor, string newGenre)
     {
-        Book? book = SearchBook(bookTitle);
+        var book = SearchBook(bookTitle);
 
         if (book == null)
         {

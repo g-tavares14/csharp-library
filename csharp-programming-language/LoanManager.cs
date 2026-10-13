@@ -2,7 +2,7 @@ namespace csharp_programming_language;
 
 public class LoanManager
 {
-    private Dictionary<Guid, Loan> _loans = new Dictionary<Guid, Loan>();
+    private readonly Dictionary<Guid, Loan> _loans = new Dictionary<Guid, Loan>();
 
     public Loan? GetActiveLoan(Book book)
     {

@@ -2,7 +2,7 @@ namespace csharp_programming_language;
 
 public class UserManager
 {
-    private Dictionary<Guid, User> _users = new Dictionary<Guid, User>();
+    private readonly Dictionary<Guid, User> _users = new Dictionary<Guid, User>();
 
     public void AddUser(User user)
     {

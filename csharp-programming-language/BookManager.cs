@@ -117,4 +117,26 @@ public class BookManager(LoanManager loanManager)
         book.Genre = newGenre;
         Console.WriteLine($"O livro {book.Title} foi atualizado");
     }
+
+    public List<Book> FilterBy(BookFilter filter, string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return [];
+        }
+
+        return
+        [
+            .. _books.Values.Where(book =>
+                GetField(book, filter).Contains(value, StringComparison.InvariantCultureIgnoreCase))
+        ];
+    }
+
+    private static string GetField(Book book, BookFilter filter) => filter switch
+    {
+        BookFilter.Title => book.Title,
+        BookFilter.Author => book.Author,
+        BookFilter.Genre => book.Genre,
+        _ => ""
+    };
 }

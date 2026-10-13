@@ -46,12 +46,16 @@ public class BookManager(LoanManager loanManager)
 
         foreach (var book in _books.Values)
         {
-            var activeLoan = _loanManager.GetActiveLoan(book);
-            var status = (activeLoan == null ? "Disponível" : $"Emprestado até o dia {activeLoan.DueDate}");
-
-            Console.WriteLine(
-                $"Titulo: {book.Title}, Autor: {book.Author}, Genero: {book.Genre},  Status: {status}");
+            Console.WriteLine(DescribeBook(book));
         }
+    }
+
+    public string DescribeBook(Book book)
+    {
+        var activeLoan = _loanManager.GetActiveLoan(book);
+        var status = (activeLoan == null ? "Disponível" : $"Emprestado até o dia {activeLoan.DueDate}");
+
+        return $"Titulo: {book.Title}, Autor: {book.Author}, Genero: {book.Genre},  Status: {status}";
     }
 
     public Book? SearchBook(string bookTitle)

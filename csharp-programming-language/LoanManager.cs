@@ -21,7 +21,7 @@ public class LoanManager
             return false;
         }
 
-        Loan loan = new Loan { Book = book, User = user };
+        var loan = new Loan { Book = book, User = user };
         _loans.Add(loan.Id, loan);
 
         return true;
@@ -29,7 +29,7 @@ public class LoanManager
 
     public Loan? ReturnBook(Book book)
     {
-        Loan? loan = GetActiveLoan(book);
+        var loan = GetActiveLoan(book);
 
         if (loan == null)
         {
@@ -42,16 +42,6 @@ public class LoanManager
 
     public List<Loan> GetActiveLoans(User? user = null)
     {
-        List<Loan> activeLoans = new List<Loan>();
-
-        foreach (var loan in _loans.Values)
-        {
-            if (loan.ReturnDate == null && (user == null || loan.User.Id == user.Id))
-            {
-                activeLoans.Add(loan);
-            }
-        }
-
-        return activeLoans;
+        return [.. _loans.Values.Where(loan => loan.ReturnDate == null && (user == null || loan.User.Id == user.Id))];
     }
 }

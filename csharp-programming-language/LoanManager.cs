@@ -33,4 +33,25 @@ public class LoanManager
 
         return false;
     }
+
+    public List<Loan> GetActiveLoans()
+    {
+        List<Loan> activeLoans = new List<Loan>();
+
+        if (loans.Count == 0)
+        {
+            Console.WriteLine("Sem nenhum livro emprestado");
+        }
+
+
+        foreach (var loan in loans.Values)
+        {
+            if (loan.ReturnDate == null)
+            {
+                activeLoans.Add(loan);
+            } 
+        }
+
+        return activeLoans;
+    }
 }

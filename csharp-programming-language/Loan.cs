@@ -1,0 +1,11 @@
+namespace csharp_programming_language;
+
+public class Loan
+{
+    public Guid Id { get; private set; } = Guid.NewGuid();
+    public required Book Book { get; init; }
+    public required User User { get; init; }
+    public DateOnly LoanDate { get; init; } = DateOnly.FromDateTime(DateTime.Now);
+    public DateOnly DueDate { get; init; } = DateOnly.FromDateTime(DateTime.Now.AddDays(7));
+    public DateOnly? ReturnDate { get; set; }
+}

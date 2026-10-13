@@ -7,10 +7,11 @@ class Program
         int option;
 
         Library library = new Library();
+        UserManager userManager = new UserManager();
 
         do
         {
-            Console.WriteLine("1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 7 - Editar | 0 - Sair");
+            Console.WriteLine("1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 7 - Editar | 8 - Cadastrar usuário | 9 - Listar usuários | 0 - Sair");
 
             while (!int.TryParse(Console.ReadLine(), out option))
             {
@@ -102,6 +103,34 @@ class Program
                     Console.WriteLine("Novo gênero do livro: ");
                     string newGenre = Console.ReadLine() ?? "";
                     library.UpdateBook(updateTitle, newTitle, newAuthor, newGenre);
+
+                    break;
+                case 8:
+                    Console.WriteLine("Cadastrar um usuário");
+                    Console.WriteLine("Nome do usuário: ");
+                    string userName = Console.ReadLine() ?? "";
+                    Console.WriteLine("Email do usuário: ");
+                    string userEmail = Console.ReadLine() ?? "";
+                    Console.WriteLine("É administrador? (s/n): ");
+                    string isAdmin = Console.ReadLine() ?? "";
+
+                    User user;
+
+                    if (isAdmin.Trim().ToLower() == "s")
+                    {
+                        user = new Admin { Name = userName, Email = userEmail };
+                    }
+                    else
+                    {
+                        user = new User { Name = userName, Email = userEmail };
+                    }
+
+                    userManager.AddUser(user);
+
+                    break;
+                case 9:
+                    Console.WriteLine("Lista de usuários");
+                    userManager.ListUsers();
 
                     break;
                 case 0:

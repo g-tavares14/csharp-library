@@ -87,4 +87,23 @@ public class Library
         book.ReturnDate = DateOnly.FromDateTime(DateTime.Now);
         return true;
     }
+
+    public void DeleteBook(string bookTitle)
+    {
+        Book? book = SearchBook(bookTitle);
+        if (book == null)
+        {
+            Console.WriteLine("Nenhum livro encontrado");
+            return;
+        }
+
+        if (!book.Available)
+        {
+            Console.WriteLine($"O livro {book.Title} não pode ser apagado porque ele está emprestado.");
+            return;
+        }
+
+        books.Remove(book.Id);
+        Console.WriteLine($"O livro {book.Title} foi apagado");
+    }
 }

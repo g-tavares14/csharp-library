@@ -8,6 +8,7 @@ class Program
 
         Library library = new Library();
         UserManager userManager = new UserManager();
+        LoanManager loanManager = new LoanManager();
 
         do
         {
@@ -62,14 +63,27 @@ class Program
                 case 4:
                     Console.WriteLine("Emprestar um livro: ");
                     string borrowTitle = Console.ReadLine() ?? "";
+                    Console.WriteLine("Email do usuário: ");
+                    string borrowEmail = Console.ReadLine() ?? "";
 
-                    if (library.BorrowBook(borrowTitle))
+                    Book? bookToBorrow = library.SearchBook(borrowTitle);
+                    User? borrower = userManager.SearchUser(borrowEmail);
+
+                    if (bookToBorrow == null)
                     {
-                        Console.WriteLine("Livro emprestado!");
+                        Console.WriteLine("Livro não encontrado");
+                    }
+                    else if (borrower == null)
+                    {
+                        Console.WriteLine("Usuário não encontrado");
+                    }
+                    else if (loanManager.BorrowBook(bookToBorrow, borrower))
+                    {
+                        Console.WriteLine($"Livro {bookToBorrow.Title} emprestado para {borrower.Name}!");
                     }
                     else
                     {
-                        Console.WriteLine("Não foi possível emprestar o livro.");
+                        Console.WriteLine($"O livro {bookToBorrow.Title} já está emprestado.");
                     }
 
                     break;
@@ -77,13 +91,19 @@ class Program
                     Console.WriteLine("Devolver um livro: ");
                     string returnTitle = Console.ReadLine() ?? "";
 
-                    if (library.ReturnBook(returnTitle))
+                    Book? bookToReturn = library.SearchBook(returnTitle);
+
+                    if (bookToReturn == null)
                     {
-                        Console.WriteLine("Livro devolvido!");
+                        Console.WriteLine("Livro não encontrado");
+                    }
+                    else if (loanManager.ReturnBook(bookToReturn))
+                    {
+                        Console.WriteLine($"Livro {bookToReturn.Title} devolvido!");
                     }
                     else
                     {
-                        Console.WriteLine("Não foi possível devolver o livro.");
+                        Console.WriteLine($"O livro {bookToReturn.Title} não está emprestado.");
                     }
 
                     break;

@@ -10,7 +10,7 @@ class Program
 
         do
         {
-            Console.WriteLine("1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 0 - Sair");
+            Console.WriteLine("1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 0 - Sair");
 
             while (!int.TryParse(Console.ReadLine(), out option))
             {
@@ -84,6 +84,12 @@ class Program
                     {
                         Console.WriteLine("Não foi possível devolver o livro.");
                     }
+
+                    break;
+                case 6:
+                    Console.WriteLine("Remover um livro: ");
+                    string deleteTitle = Console.ReadLine() ?? "";
+                    library.DeleteBook(deleteTitle);
 
                     break;
                 case 0:

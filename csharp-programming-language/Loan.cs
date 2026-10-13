@@ -6,9 +6,10 @@ public class Loan
     public required Book Book { get; init; }
     public required User User { get; init; }
     public DateOnly LoanDate { get; init; } = DateOnly.FromDateTime(DateTime.Now);
-    public DateOnly DueDate { get; init; } = DateOnly.FromDateTime(DateTime.Now.AddDays(7));
+    public DateOnly DueDate => LoanDate.AddDays(LoanDays);
     public DateOnly? ReturnDate { get; set; }
 
+    private const int LoanDays = 7;
     private const decimal FinePerDay = 2.00m;
 
     public int DaysOverdue(DateOnly today)

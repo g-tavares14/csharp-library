@@ -2,13 +2,13 @@ namespace csharp_programming_language;
 
 public class Library
 {
-    private BookManager bookManager;
-    private UserManager userManager = new UserManager();
-    private LoanManager loanManager = new LoanManager();
+    private readonly BookManager _bookManager;
+    private readonly UserManager _userManager = new UserManager();
+    private readonly LoanManager _loanManager = new LoanManager();
 
     public Library()
     {
-        bookManager = new BookManager(loanManager);
+        _bookManager = new BookManager(_loanManager);
     }
 
     public void Run()
@@ -17,7 +17,8 @@ public class Library
 
         do
         {
-            Console.WriteLine("1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 7 - Editar | 8 - Cadastrar usuário | 9 - Listar usuários | 10 - Empréstimos ativos | 11 - Empréstimos de um usuário | 0 - Sair");
+            Console.WriteLine(
+                "1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 7 - Editar | 8 - Cadastrar usuário | 9 - Listar usuários | 10 - Empréstimos ativos | 11 - Empréstimos de um usuário | 0 - Sair");
 
             while (!int.TryParse(Console.ReadLine(), out option))
             {
@@ -101,19 +102,19 @@ public class Library
             Genre = genre,
         };
 
-        bookManager.AddBook(book);
+        _bookManager.AddBook(book);
     }
 
     private void ShowBooks()
     {
         Console.WriteLine("Listar um livro");
-        bookManager.ListBooks();
+        _bookManager.ListBooks();
     }
 
     private void SearchBook()
     {
         string bookTitle = Prompt(" Buscar um livro: ");
-        Book? found = bookManager.SearchBook(bookTitle);
+        Book? found = _bookManager.SearchBook(bookTitle);
 
         if (found == null)
         {
@@ -130,8 +131,8 @@ public class Library
         string borrowTitle = Prompt("Emprestar um livro: ");
         string borrowEmail = Prompt("Email do usuário: ");
 
-        Book? bookToBorrow = bookManager.SearchBook(borrowTitle);
-        User? borrower = userManager.SearchUser(borrowEmail);
+        Book? bookToBorrow = _bookManager.SearchBook(borrowTitle);
+        User? borrower = _userManager.SearchUser(borrowEmail);
 
         if (bookToBorrow == null)
         {
@@ -141,7 +142,7 @@ public class Library
         {
             Console.WriteLine("Usuário não encontrado");
         }
-        else if (loanManager.BorrowBook(bookToBorrow, borrower))
+        else if (_loanManager.BorrowBook(bookToBorrow, borrower))
         {
             Console.WriteLine($"Livro {bookToBorrow.Title} emprestado para {borrower.Name}!");
         }
@@ -155,7 +156,7 @@ public class Library
     {
         string returnTitle = Prompt("Devolver um livro: ");
 
-        Book? bookToReturn = bookManager.SearchBook(returnTitle);
+        Book? bookToReturn = _bookManager.SearchBook(returnTitle);
 
         if (bookToReturn == null)
         {
@@ -163,7 +164,7 @@ public class Library
             return;
         }
 
-        Loan? returnedLoan = loanManager.ReturnBook(bookToReturn);
+        Loan? returnedLoan = _loanManager.ReturnBook(bookToReturn);
 
         if (returnedLoan == null)
         {
@@ -183,7 +184,7 @@ public class Library
     private void DeleteBook()
     {
         string deleteTitle = Prompt("Remover um livro: ");
-        bookManager.DeleteBook(deleteTitle);
+        _bookManager.DeleteBook(deleteTitle);
     }
 
     private void UpdateBook()
@@ -192,7 +193,7 @@ public class Library
         string newTitle = Prompt("Novo título do livro: ");
         string newAuthor = Prompt("Novo autor do livro: ");
         string newGenre = Prompt("Novo gênero do livro: ");
-        bookManager.UpdateBook(updateTitle, newTitle, newAuthor, newGenre);
+        _bookManager.UpdateBook(updateTitle, newTitle, newAuthor, newGenre);
     }
 
     private void RegisterUser()
@@ -213,19 +214,19 @@ public class Library
             user = new User { Name = userName, Email = userEmail };
         }
 
-        userManager.AddUser(user);
+        _userManager.AddUser(user);
     }
 
     private void ShowUsers()
     {
         Console.WriteLine("Lista de usuários");
-        userManager.ListUsers();
+        _userManager.ListUsers();
     }
 
     private void ShowActiveLoans(DateOnly today)
     {
         Console.WriteLine("Empréstimos ativos");
-        List<Loan> activeLoans = loanManager.GetActiveLoans();
+        List<Loan> activeLoans = _loanManager.GetActiveLoans();
 
         if (activeLoans.Count == 0)
         {
@@ -243,7 +244,7 @@ public class Library
     {
         Console.WriteLine("Empréstimos de um usuário");
         string loansEmail = Prompt("Email do usuário: ");
-        User? loansUser = userManager.SearchUser(loansEmail);
+        User? loansUser = _userManager.SearchUser(loansEmail);
 
         if (loansUser == null)
         {
@@ -251,7 +252,7 @@ public class Library
             return;
         }
 
-        List<Loan> userLoans = loanManager.GetActiveLoans(loansUser);
+        List<Loan> userLoans = _loanManager.GetActiveLoans(loansUser);
 
         if (userLoans.Count == 0)
         {

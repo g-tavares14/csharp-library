@@ -2,12 +2,12 @@ namespace csharp_programming_language;
 
 public class BookManager
 {
-    private Dictionary<Guid, Book> books = new Dictionary<Guid, Book>();
-    private LoanManager loanManager;
+    private Dictionary<Guid, Book> _books = new Dictionary<Guid, Book>();
+    private LoanManager _loanManager;
 
     public BookManager(LoanManager loanManager)
     {
-        this.loanManager = loanManager;
+        _loanManager = loanManager;
     }
 
     private bool HasRequiredFields(string title, string author, string genre)
@@ -18,7 +18,7 @@ public class BookManager
 
     private bool TitleExists(string title, Guid? ignoreId = null)
     {
-        foreach (var uniqueBook in books.Values)
+        foreach (var uniqueBook in _books.Values)
         {
             if (uniqueBook.Id != ignoreId &&
                 string.Equals(title, uniqueBook.Title, StringComparison.InvariantCultureIgnoreCase))
@@ -44,21 +44,21 @@ public class BookManager
             return;
         }
 
-        books.Add(book.Id, book);
+        _books.Add(book.Id, book);
         Console.WriteLine($"O livro {book.Title} foi adicionado");
     }
 
     public void ListBooks()
     {
-        if (books.Count == 0)
+        if (_books.Count == 0)
         {
             Console.WriteLine("Nenhum livro encontrado a lista está vazia");
             return;
         }
 
-        foreach (var book in books.Values)
+        foreach (var book in _books.Values)
         {
-            Loan? activeLoan = loanManager.GetActiveLoan(book);
+            Loan? activeLoan = _loanManager.GetActiveLoan(book);
             string status = (activeLoan == null ? "Disponível" : $"Emprestado até o dia {activeLoan.DueDate}");
 
             Console.WriteLine(
@@ -73,7 +73,7 @@ public class BookManager
             return null;
         }
 
-        foreach (var book in books.Values)
+        foreach (var book in _books.Values)
         {
             if (book.Title.Contains(bookTitle, StringComparison.InvariantCultureIgnoreCase))
             {
@@ -93,13 +93,13 @@ public class BookManager
             return;
         }
 
-        if (!loanManager.IsAvailable(book))
+        if (!_loanManager.IsAvailable(book))
         {
             Console.WriteLine($"O livro {book.Title} não pode ser apagado porque ele está emprestado.");
             return;
         }
 
-        books.Remove(book.Id);
+        _books.Remove(book.Id);
         Console.WriteLine($"O livro {book.Title} foi apagado");
     }
 
@@ -113,7 +113,7 @@ public class BookManager
             return;
         }
 
-        if (!loanManager.IsAvailable(book))
+        if (!_loanManager.IsAvailable(book))
         {
             Console.WriteLine($"O livro {book.Title} não pode ser atualizado porque ele está emprestado.");
             return;

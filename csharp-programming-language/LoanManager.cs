@@ -2,11 +2,11 @@ namespace csharp_programming_language;
 
 public class LoanManager
 {
-    private Dictionary<Guid, Loan> loans = new Dictionary<Guid, Loan>();
+    private Dictionary<Guid, Loan> _loans = new Dictionary<Guid, Loan>();
 
     public Loan? GetActiveLoan(Book book)
     {
-        foreach (var loan in loans.Values)
+        foreach (var loan in _loans.Values)
         {
             if (loan.Book.Id == book.Id && loan.ReturnDate == null)
             {
@@ -30,7 +30,7 @@ public class LoanManager
         }
 
         Loan loan = new Loan { Book = book, User = user };
-        loans.Add(loan.Id, loan);
+        _loans.Add(loan.Id, loan);
 
         return true;
     }
@@ -52,7 +52,7 @@ public class LoanManager
     {
         List<Loan> activeLoans = new List<Loan>();
 
-        foreach (var loan in loans.Values)
+        foreach (var loan in _loans.Values)
         {
             if (loan.ReturnDate == null && (user == null || loan.User.Id == user.Id))
             {

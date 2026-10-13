@@ -52,6 +52,11 @@ public class BookManager
 
     public Book? SearchBook(string bookTitle)
     {
+        if (string.IsNullOrWhiteSpace(bookTitle))
+        {
+            return null;
+        }
+
         foreach (var book in books.Values)
         {
             if (book.Title.Contains(bookTitle, StringComparison.InvariantCultureIgnoreCase))

@@ -19,7 +19,7 @@ public class LoanManager
         return true;
     }
 
-    public bool ReturnBook(Book book)
+    public Loan? ReturnBook(Book book)
     {
         foreach (var borrowBook in loans.Values)
         {
@@ -27,11 +27,11 @@ public class LoanManager
             {
                 borrowBook.ReturnDate = DateOnly.FromDateTime(DateTime.Now);
                 book.Available = true;
-                return true;
+                return borrowBook;
             }
         }
 
-        return false;
+        return null;
     }
 
     public List<Loan> GetActiveLoans(User? user = null)

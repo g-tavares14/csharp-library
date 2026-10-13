@@ -19,6 +19,8 @@ public class Library
                 Console.WriteLine("Digite um número válido.");
             }
 
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+
             switch (option)
             {
                 case 1:
@@ -97,13 +99,24 @@ public class Library
                     {
                         Console.WriteLine("Livro não encontrado");
                     }
-                    else if (loanManager.ReturnBook(bookToReturn))
-                    {
-                        Console.WriteLine($"Livro {bookToReturn.Title} devolvido!");
-                    }
                     else
                     {
-                        Console.WriteLine($"O livro {bookToReturn.Title} não está emprestado.");
+                        Loan? returnedLoan = loanManager.ReturnBook(bookToReturn);
+
+                        if (returnedLoan == null)
+                        {
+                            Console.WriteLine($"O livro {bookToReturn.Title} não está emprestado.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Livro {bookToReturn.Title} devolvido!");
+
+                            if (returnedLoan.DaysOverdue(today) > 0)
+                            {
+                                Console.WriteLine(
+                                    $"Devolução com {returnedLoan.DaysOverdue(today)} dia(s) de atraso. Multa: R$ {returnedLoan.CalculateFine(today):F2}");
+                            }
+                        }
                     }
 
                     break;

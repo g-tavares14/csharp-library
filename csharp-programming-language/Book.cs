@@ -7,6 +7,4 @@ public class Book
     public string Author { get; set; } = "";
     public string Genre { get; set; } = "";
     public DateOnly RegistrationDate { get; private set; } = DateOnly.FromDateTime(DateTime.Now);
-    public DateOnly ReturnDate { get; set; }
-    public bool Available { get; set; } = true;
 }

@@ -3,6 +3,12 @@ namespace csharp_programming_language;
 public class BookManager
 {
     private Dictionary<Guid, Book> books = new Dictionary<Guid, Book>();
+    private LoanManager loanManager;
+
+    public BookManager(LoanManager loanManager)
+    {
+        this.loanManager = loanManager;
+    }
 
     public void AddBook(Book book)
     {
@@ -36,7 +42,8 @@ public class BookManager
 
         foreach (var book in books.Values)
         {
-            string status = (book.Available ? "Disponível" : $"Emprestado até o dia {book.ReturnDate}");
+            Loan? activeLoan = loanManager.GetActiveLoan(book);
+            string status = (activeLoan == null ? "Disponível" : $"Emprestado até o dia {activeLoan.DueDate}");
 
             Console.WriteLine(
                 $"Titulo: {book.Title}, Autor: {book.Author}, Genero: {book.Genre},  Status: {status}");
@@ -65,7 +72,7 @@ public class BookManager
             return;
         }
 
-        if (!book.Available)
+        if (!loanManager.IsAvailable(book))
         {
             Console.WriteLine($"O livro {book.Title} não pode ser apagado porque ele está emprestado.");
             return;
@@ -85,7 +92,7 @@ public class BookManager
             return;
         }
 
-        if (!book.Available)
+        if (!loanManager.IsAvailable(book))
         {
             Console.WriteLine($"O livro {book.Title} não pode ser atualizado porque ele está emprestado.");
             return;

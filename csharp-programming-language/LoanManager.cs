@@ -4,34 +4,48 @@ public class LoanManager
 {
     private Dictionary<Guid, Loan> loans = new Dictionary<Guid, Loan>();
 
+    public Loan? GetActiveLoan(Book book)
+    {
+        foreach (var loan in loans.Values)
+        {
+            if (loan.Book.Id == book.Id && loan.ReturnDate == null)
+            {
+                return loan;
+            }
+        }
+
+        return null;
+    }
+
+    public bool IsAvailable(Book book)
+    {
+        return GetActiveLoan(book) == null;
+    }
+
     public bool BorrowBook(Book book, User user)
     {
-        if (book.Available == false)
+        if (!IsAvailable(book))
         {
             return false;
         }
 
         Loan loan = new Loan { Book = book, User = user };
         loans.Add(loan.Id, loan);
-        book.Available = false;
-        book.ReturnDate = loan.DueDate;
 
         return true;
     }
 
     public Loan? ReturnBook(Book book)
     {
-        foreach (var borrowBook in loans.Values)
+        Loan? loan = GetActiveLoan(book);
+
+        if (loan == null)
         {
-            if (borrowBook.Book.Id == book.Id && borrowBook.ReturnDate == null)
-            {
-                borrowBook.ReturnDate = DateOnly.FromDateTime(DateTime.Now);
-                book.Available = true;
-                return borrowBook;
-            }
+            return null;
         }
 
-        return null;
+        loan.ReturnDate = DateOnly.FromDateTime(DateTime.Now);
+        return loan;
     }
 
     public List<Loan> GetActiveLoans(User? user = null)

@@ -2,9 +2,14 @@ namespace csharp_programming_language;
 
 public class Library
 {
-    private BookManager bookManager = new BookManager();
+    private BookManager bookManager;
     private UserManager userManager = new UserManager();
     private LoanManager loanManager = new LoanManager();
+
+    public Library()
+    {
+        bookManager = new BookManager(loanManager);
+    }
 
     public void Run()
     {

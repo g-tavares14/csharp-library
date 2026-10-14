@@ -170,4 +170,17 @@ public class BookManager(LoanManager loanManager)
                 .OrderBy(item => item.Value, StringComparer.InvariantCultureIgnoreCase)
         ];
     }
+
+    public List<Book> GetBooks()
+    {
+        return [.. _books.Values];
+    }
+
+    public void LoadBooks(List<Book> books)
+    {
+        foreach (var book in books)
+        {
+            _books[book.Id] = book;
+        }
+    }
 }

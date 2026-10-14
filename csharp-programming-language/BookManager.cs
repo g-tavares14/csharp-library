@@ -154,4 +154,20 @@ public class BookManager(LoanManager loanManager)
 
         return (total, borrowed, available);
     }
+
+    public List<(string Value, int Count)> CountBy(BookFilter field)
+    {
+        if (!Enum.IsDefined(field))
+        {
+            return [];
+        }
+
+        return
+        [
+            .. _books.Values
+                .GroupBy(book => GetField(book, field), StringComparer.InvariantCultureIgnoreCase)
+                .Select(group => (Value: group.Key, Count: group.Count()))
+                .OrderBy(item => item.Value, StringComparer.InvariantCultureIgnoreCase)
+        ];
+    }
 }

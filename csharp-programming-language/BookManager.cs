@@ -132,7 +132,8 @@ public class BookManager(LoanManager loanManager)
         return
         [
             .. _books.Values.Where(book =>
-                GetField(book, filter).Contains(value, StringComparison.InvariantCultureIgnoreCase))
+                    GetField(book, filter).Contains(value, StringComparison.InvariantCultureIgnoreCase))
+                .OrderBy(book => book.Title, StringComparer.InvariantCultureIgnoreCase)
         ];
     }
 

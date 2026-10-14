@@ -32,7 +32,7 @@ Projeto de estudo para praticar a linguagem **C#** e lógica de programação. �
 ## Estrutura
 
 ```
-csharp-programming-language/            # o programa
+CSharpLibrary/            # o programa
 ├── Program.cs        # ponto de entrada
 ├── Library.cs        # menu: lê a entrada e chama os gerenciadores
 ├── BookManager.cs    # regras dos livros (cadastro, busca, filtro, estatísticas)
@@ -45,7 +45,7 @@ csharp-programming-language/            # o programa
 ├── LoanData.cs       # formato do empréstimo no arquivo (só os Ids)
 └── BookFilter.cs     # enum com os campos de filtro
 
-csharp-programming-language.Tests/      # os testes (xUnit)
+CSharpLibrary.Tests/      # os testes (xUnit)
 ├── LoanTests.cs
 ├── LoanManagerTests.cs
 ├── BooksTests.cs
@@ -59,9 +59,9 @@ csharp-programming-language.Tests/      # os testes (xUnit)
 Requer o [.NET SDK](https://dotnet.microsoft.com/download) (o projeto usa o .NET 10).
 
 ```bash
-git clone https://github.com/g-tavares14/csharp-programming-language.git
-cd csharp-programming-language
-dotnet run --project csharp-programming-language
+git clone https://github.com/g-tavares14/csharp-library.git
+cd csharp-library
+dotnet run --project CSharpLibrary
 ```
 
 Os arquivos `books.json`, `users.json` e `loans.json` são criados na mesma pasta do programa compilado (`bin/Debug/net10.0`). Para começar do zero, basta apagá-los.

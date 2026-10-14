@@ -1,4 +1,4 @@
-namespace csharp_programming_language;
+namespace CSharpLibrary;
 
 public class UserManager
 {

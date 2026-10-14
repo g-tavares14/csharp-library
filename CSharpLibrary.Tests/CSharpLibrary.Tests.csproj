@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <RootNamespace>csharp_programming_language.Tests</RootNamespace>
+    <RootNamespace>CSharpLibrary.Tests</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\csharp-programming-language\csharp-programming-language.csproj" />
+    <ProjectReference Include="..\CSharpLibrary\CSharpLibrary.csproj" />
   </ItemGroup>
 
 </Project>

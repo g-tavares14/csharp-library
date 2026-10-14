@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace csharp_programming_language;
+namespace CSharpLibrary;
 
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
 [JsonDerivedType(typeof(User), "user")]

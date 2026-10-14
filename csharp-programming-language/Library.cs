@@ -18,7 +18,7 @@ public class Library
         do
         {
             Console.WriteLine(
-                "1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 7 - Editar | 8 - Cadastrar usuário | 9 - Listar usuários | 10 - Empréstimos ativos | 11 - Empréstimos de um usuário | 12 - Filtrar livros | 13 - Estatísticas | 14 - Livros agrupados | 0 - Sair");
+                "1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 7 - Editar | 8 - Cadastrar usuário | 9 - Listar usuários | 10 - Empréstimos ativos | 11 - Empréstimos de um usuário | 12 - Filtrar livros | 13 - Estatísticas | 14 - Livros agrupados | 15 - Empréstimos por usuário | 0 - Sair");
 
             while (!int.TryParse(Console.ReadLine(), out option))
             {
@@ -70,6 +70,9 @@ public class Library
                     break;
                 case 14:
                     ShowGroupedBooks();
+                    break;
+                case 15:
+                    ShowLoansPerUser();
                     break;
                 case 0:
                     Console.WriteLine("Saindo...");
@@ -196,6 +199,22 @@ public class Library
         foreach (var (value, count) in groups)
         {
             Console.WriteLine($"{value}: {count}");
+        }
+    }
+
+    private void ShowLoansPerUser()
+    {
+        Console.WriteLine("Empréstimos por usuário");
+        var loansPerUser = _loanManager.CountActiveLoansByUser();
+
+        if (loansPerUser.Count == 0)
+        {
+            Console.WriteLine("Nenhum empréstimo ativo");
+        }
+
+        foreach (var (userName, email, count) in loansPerUser)
+        {
+            Console.WriteLine($"{userName} ({email}): {count}");
         }
     }
 

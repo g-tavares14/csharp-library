@@ -18,7 +18,7 @@ public class Library
         do
         {
             Console.WriteLine(
-                "1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 7 - Editar | 8 - Cadastrar usuário | 9 - Listar usuários | 10 - Empréstimos ativos | 11 - Empréstimos de um usuário | 12 - Filtrar livros | 13 - Estatísticas | 0 - Sair");
+                "1 - Cadastrar | 2 - Listar | 3 - Buscar | 4 - Emprestar | 5 - Devolver | 6 - Remover | 7 - Editar | 8 - Cadastrar usuário | 9 - Listar usuários | 10 - Empréstimos ativos | 11 - Empréstimos de um usuário | 12 - Filtrar livros | 13 - Estatísticas | 14 - Livros agrupados | 0 - Sair");
 
             while (!int.TryParse(Console.ReadLine(), out option))
             {
@@ -67,6 +67,9 @@ public class Library
                     break;
                 case 13:
                     ShowStatistics();
+                    break;
+                case 14:
+                    ShowGroupedBooks();
                     break;
                 case 0:
                     Console.WriteLine("Saindo...");
@@ -170,6 +173,30 @@ public class Library
         Console.WriteLine("Estatísticas");
         var (total, borrowed, available) = _bookManager.GetStatistics();
         Console.WriteLine($"Total: {total} | Emprestados: {borrowed} | Disponíveis: {available}");
+    }
+
+    private void ShowGroupedBooks()
+    {
+        Console.WriteLine("Livros agrupados");
+        var field = AskBookFilter("Agrupar por");
+
+        if (field == null)
+        {
+            Console.WriteLine("Opção inválida");
+            return;
+        }
+
+        var groups = _bookManager.CountBy(field.Value);
+
+        if (groups.Count == 0)
+        {
+            Console.WriteLine("Nenhum livro cadastrado");
+        }
+
+        foreach (var (value, count) in groups)
+        {
+            Console.WriteLine($"{value}: {count}");
+        }
     }
 
     private void BorrowBook()

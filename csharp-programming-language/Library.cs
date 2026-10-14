@@ -12,6 +12,7 @@ public class Library
         _bookManager = new BookManager(_loanManager);
         _bookManager.LoadBooks(_dataStore.LoadBooks());
         _userManager.LoadUsers(_dataStore.LoadUsers());
+        _loanManager.LoadLoans(_dataStore.LoadLoans(_bookManager.GetBooks(), _userManager.GetUsers()));
     }
 
     public void Run()
@@ -87,6 +88,7 @@ public class Library
 
             _dataStore.SaveBooks(_bookManager.GetBooks());
             _dataStore.SaveUsers(_userManager.GetUsers());
+            _dataStore.SaveLoans(_loanManager.GetLoans());
         } while (option != 0);
     }
 

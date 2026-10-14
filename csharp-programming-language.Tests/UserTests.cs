@@ -14,4 +14,17 @@ public class UserTests
 
         Assert.Single(userManager.GetUsers());
     }
+
+    [Fact]
+    public void AddUser_Adds_WhenEmailIsNotDuplicated()
+    {
+        var userManager = new UserManager();
+        var firstUser = new User { Name = "João", Email = "joao@x.com" };
+        var secondUser = new User { Name = "Guilherme", Email = "guilherme@x.com" };
+
+        userManager.AddUser(firstUser);
+        userManager.AddUser(secondUser);
+
+        Assert.Equal(2, userManager.GetUsers().Count);
+    }
 }

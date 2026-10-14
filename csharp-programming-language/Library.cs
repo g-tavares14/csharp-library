@@ -5,12 +5,13 @@ public class Library
     private readonly BookManager _bookManager;
     private readonly UserManager _userManager = new UserManager();
     private readonly LoanManager _loanManager = new LoanManager();
-    private readonly DataStore _dataStore = new DataStore(Path.Combine(AppContext.BaseDirectory, "books.json"));
+    private readonly DataStore _dataStore = new DataStore(AppContext.BaseDirectory);
 
     public Library()
     {
         _bookManager = new BookManager(_loanManager);
         _bookManager.LoadBooks(_dataStore.LoadBooks());
+        _userManager.LoadUsers(_dataStore.LoadUsers());
     }
 
     public void Run()
@@ -85,6 +86,7 @@ public class Library
             }
 
             _dataStore.SaveBooks(_bookManager.GetBooks());
+            _dataStore.SaveUsers(_userManager.GetUsers());
         } while (option != 0);
     }
 

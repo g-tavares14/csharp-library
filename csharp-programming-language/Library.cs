@@ -127,18 +127,23 @@ public class Library
         Console.WriteLine(found == null ? "Nenhum livro encontrado" : found.Title);
     }
 
-    private void FilterBooks()
+    private BookFilter? AskBookFilter(string action)
     {
-        Console.WriteLine("Filtrar livros");
-        var fieldOption = Prompt("Filtrar por: 1 - Título | 2 - Autor | 3 - Gênero");
+        var fieldOption = Prompt($"{action}: 1 - Título | 2 - Autor | 3 - Gênero");
 
-        BookFilter? filter = fieldOption.Trim() switch
+        return fieldOption.Trim() switch
         {
             "1" => BookFilter.Title,
             "2" => BookFilter.Author,
             "3" => BookFilter.Genre,
             _ => null
         };
+    }
+
+    private void FilterBooks()
+    {
+        Console.WriteLine("Filtrar livros");
+        var filter = AskBookFilter("Filtrar por");
 
         if (filter == null)
         {

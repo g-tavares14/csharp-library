@@ -1,4 +1,4 @@
-﻿namespace csharp_programming_language;
+namespace csharp_programming_language;
 
 public class LoanTests
 {
@@ -50,5 +50,69 @@ public class LoanTests
         var result = loanManager.BorrowBook(book, user);
 
         Assert.True(result);
+    }
+
+    [Fact]
+    public void DueDate_IsSevenDaysAfterLoanDate()
+    {
+        var loan = new Loan { Book = new Book(), User = new User(), LoanDate = new DateOnly(2026, 1, 1) };
+
+        Assert.Equal(new DateOnly(2026, 1, 8), loan.DueDate);
+    }
+
+    [Fact]
+    public void DaysOverdue_IsZero_OnDueDate()
+    {
+        var loan = new Loan { Book = new Book(), User = new User(), LoanDate = new DateOnly(2026, 1, 1) };
+
+        Assert.Equal(0, loan.DaysOverdue(loan.DueDate));
+    }
+
+    [Fact]
+    public void DaysOverdue_CountsUntilReturnDate_WhenLoanWasReturned()
+    {
+        var loan = new Loan
+        {
+            Book = new Book(),
+            User = new User(),
+            LoanDate = new DateOnly(2026, 1, 1),
+            ReturnDate = new DateOnly(2026, 1, 11)
+        };
+
+        var daysOverdue = loan.DaysOverdue(new DateOnly(2026, 3, 1));
+
+        Assert.Equal(3, daysOverdue);
+    }
+
+    [Fact]
+    public void CalculateFine_ReturnsZero_WhenReturnedOnTime()
+    {
+        var loan = new Loan
+        {
+            Book = new Book(),
+            User = new User(),
+            LoanDate = new DateOnly(2026, 1, 1),
+            ReturnDate = new DateOnly(2026, 1, 8)
+        };
+
+        var fine = loan.CalculateFine(new DateOnly(2026, 3, 1));
+
+        Assert.Equal(0m, fine);
+    }
+
+    [Fact]
+    public void CalculateFine_ChargesUntilReturnDate_WhenReturnedLate()
+    {
+        var loan = new Loan
+        {
+            Book = new Book(),
+            User = new User(),
+            LoanDate = new DateOnly(2026, 1, 1),
+            ReturnDate = new DateOnly(2026, 1, 11)
+        };
+
+        var fine = loan.CalculateFine(new DateOnly(2026, 3, 1));
+
+        Assert.Equal(6.00m, fine);
     }
 }

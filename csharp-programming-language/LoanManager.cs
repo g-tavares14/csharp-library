@@ -48,4 +48,15 @@ public class LoanManager
                 .OrderBy(loan => loan.Book.Title, StringComparer.InvariantCultureIgnoreCase)
         ];
     }
+
+    public List<(string UserName, string Email, int Count)> CountActiveLoansByUser()
+    {
+        return
+        [
+            .. _loans.Values.Where(loan => loan.ReturnDate == null).GroupBy(loan => loan.User.Id)
+                .Select(group => (UserName: group.First().User.Name, group.First().User.Email,
+                    Count: group.Count()))
+                .OrderBy(item => item.UserName, StringComparer.InvariantCultureIgnoreCase)
+        ];
+    }
 }

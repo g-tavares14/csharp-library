@@ -144,4 +144,14 @@ public class BookManager(LoanManager loanManager)
         BookFilter.Genre => book.Genre,
         _ => ""
     };
+
+    public (int Total, int Borrowed, int Available) GetStatistics()
+    {
+        var total = _books.Count;
+        var borrowed = _books.Values.Count(book => !_loanManager.IsAvailable(book));
+        var available = _books.Values.Count(book => _loanManager.IsAvailable(book)); // Poderia usar o total - borrowed.
+
+
+        return (total, borrowed, available);
+    }
 }

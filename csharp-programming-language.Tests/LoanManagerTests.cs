@@ -7,6 +7,32 @@ public class LoanManagerTests
     private static User CreateUser(string name) => new() { Name = name, Email = $"{name.ToLower()}@x.com" };
 
     [Fact]
+    public void BorrowBook_ReturnsFalse_WhenBookIsAlreadyBorrowed()
+    {
+        var loanManager = new LoanManager();
+        var book = new Book { Title = "Clean Code", Author = "Robert Martin", Genre = "Tecnologia" };
+        var user = new User { Name = "João", Email = "joao@x.com" };
+
+        loanManager.BorrowBook(book, user);
+
+        var result = loanManager.BorrowBook(book, user);
+
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void BorrowBook_ReturnsTrue_WhenBookIsAvailable()
+    {
+        var loanManager = new LoanManager();
+        var book = new Book { Title = "Clean Code", Author = "Robert Martin", Genre = "Tecnologia" };
+        var user = new User { Name = "João", Email = "joao@x.com" };
+
+        var result = loanManager.BorrowBook(book, user);
+
+        Assert.True(result);
+    }
+
+    [Fact]
     public void IsAvailable_ReturnsTrue_WhenBookWasNeverBorrowed()
     {
         var loanManager = new LoanManager();

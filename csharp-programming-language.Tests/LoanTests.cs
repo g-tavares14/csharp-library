@@ -27,32 +27,6 @@ public class LoanTests
     }
 
     [Fact]
-    public void BorrowBook_ReturnsFalse_WhenBookIsAlreadyBorrowed()
-    {
-        var loanManager = new LoanManager();
-        var book = new Book { Title = "Clean Code", Author = "Robert Martin", Genre = "Tecnologia" };
-        var user = new User { Name = "João", Email = "joao@x.com" };
-
-        loanManager.BorrowBook(book, user);
-
-        var result = loanManager.BorrowBook(book, user);
-
-        Assert.False(result);
-    }
-
-    [Fact]
-    public void BorrowBook_ReturnsTrue_WhenBookIsAvailable()
-    {
-        var loanManager = new LoanManager();
-        var book = new Book { Title = "Clean Code", Author = "Robert Martin", Genre = "Tecnologia" };
-        var user = new User { Name = "João", Email = "joao@x.com" };
-
-        var result = loanManager.BorrowBook(book, user);
-
-        Assert.True(result);
-    }
-
-    [Fact]
     public void DueDate_IsSevenDaysAfterLoanDate()
     {
         var loan = new Loan { Book = new Book(), User = new User(), LoanDate = new DateOnly(2026, 1, 1) };

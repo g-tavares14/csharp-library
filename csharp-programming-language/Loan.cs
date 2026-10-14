@@ -2,7 +2,7 @@ namespace csharp_programming_language;
 
 public class Loan
 {
-    public Guid Id { get; private set; } = Guid.NewGuid();
+    public Guid Id { get; init; } = Guid.NewGuid();
     public required Book Book { get; init; }
     public required User User { get; init; }
     public DateOnly LoanDate { get; init; } = DateOnly.FromDateTime(DateTime.Now);

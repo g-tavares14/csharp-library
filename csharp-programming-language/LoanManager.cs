@@ -59,4 +59,17 @@ public class LoanManager
                 .OrderBy(item => item.UserName, StringComparer.InvariantCultureIgnoreCase)
         ];
     }
+
+    public List<Loan> GetLoans()
+    {
+        return [.. _loans.Values];
+    }
+
+    public void LoadLoans(List<Loan> loans)
+    {
+        foreach (var loan in loans)
+        {
+            _loans[loan.Id] = loan;
+        }
+    }
 }

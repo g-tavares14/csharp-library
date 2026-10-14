@@ -6,6 +6,7 @@ public class DataStore(string directory)
 {
     private readonly string _booksPath = Path.Combine(directory, "books.json");
     private readonly string _usersPath = Path.Combine(directory, "users.json");
+    private readonly string _loansPath = Path.Combine(directory, "loans.json");
 
     public void SaveBooks(List<Book> books)
     {
@@ -53,5 +54,42 @@ public class DataStore(string directory)
                 $"O arquivo {description} está corrompido. Uma cópia foi guardada em {backupPath} e o programa vai começar vazio.");
             return [];
         }
+    }
+
+    public void SaveLoans(List<Loan> loans)
+    {
+        var loansData = loans
+            .Select(loan => new LoanData(loan.Id, loan.Book.Id, loan.User.Id, loan.LoanDate, loan.ReturnDate))
+            .ToList();
+
+        Save(_loansPath, loansData);
+    }
+
+    public List<Loan> LoadLoans(List<Book> books, List<User> users)
+    {
+        var loans = new List<Loan>();
+
+        foreach (var data in Load<LoanData>(_loansPath, "de empréstimos"))
+        {
+            var book = books.FirstOrDefault(b => b.Id == data.BookId);
+            var user = users.FirstOrDefault(u => u.Id == data.UserId);
+
+            if (book == null || user == null)
+            {
+                Console.WriteLine("Um empréstimo foi descartado porque o livro ou o usuário não existe mais.");
+                continue;
+            }
+
+            loans.Add(new Loan
+            {
+                Id = data.Id,
+                Book = book,
+                User = user,
+                LoanDate = data.LoanDate,
+                ReturnDate = data.ReturnDate
+            });
+        }
+
+        return loans;
     }
 }

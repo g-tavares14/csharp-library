@@ -25,7 +25,18 @@ public class DataStore(string booksPath)
             return [];
         }
 
-        var json = File.ReadAllText(booksPath);
-        return JsonSerializer.Deserialize<List<Book>>(json) ?? [];
+        try
+        {
+            var json = File.ReadAllText(booksPath);
+            return JsonSerializer.Deserialize<List<Book>>(json) ?? [];
+        }
+        catch (JsonException)
+        {
+            var backupPath = booksPath + ".corrompido";
+            File.Move(booksPath, backupPath, overwrite: true);
+            Console.WriteLine(
+                $"O arquivo de livros está corrompido. Uma cópia foi guardada em {backupPath} e o programa vai começar sem livros.");
+            return [];
+        }
     }
 }

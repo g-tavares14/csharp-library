@@ -41,4 +41,17 @@ public class UserManager
         return _users.Values.FirstOrDefault(existingUser =>
             string.Equals(existingUser.Email, email, StringComparison.InvariantCultureIgnoreCase));
     }
+
+    public List<User> GetUsers()
+    {
+        return [.. _users.Values];
+    }
+
+    public void LoadUsers(List<User> users)
+    {
+        foreach (var user in users)
+        {
+            _users[user.Id] = user;
+        }
+    }
 }

@@ -42,6 +42,10 @@ public class LoanManager
 
     public List<Loan> GetActiveLoans(User? user = null)
     {
-        return [.. _loans.Values.Where(loan => loan.ReturnDate == null && (user == null || loan.User.Id == user.Id))];
+        return
+        [
+            .. _loans.Values.Where(loan => loan.ReturnDate == null && (user == null || loan.User.Id == user.Id))
+                .OrderBy(loan => loan.Book.Title, StringComparer.InvariantCultureIgnoreCase)
+        ];
     }
 }

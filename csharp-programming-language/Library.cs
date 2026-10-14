@@ -5,10 +5,12 @@ public class Library
     private readonly BookManager _bookManager;
     private readonly UserManager _userManager = new UserManager();
     private readonly LoanManager _loanManager = new LoanManager();
+    private readonly DataStore _dataStore = new DataStore(Path.Combine(AppContext.BaseDirectory, "books.json"));
 
     public Library()
     {
         _bookManager = new BookManager(_loanManager);
+        _bookManager.LoadBooks(_dataStore.LoadBooks());
     }
 
     public void Run()
@@ -81,6 +83,8 @@ public class Library
                     Console.WriteLine("Opção inválida");
                     break;
             }
+
+            _dataStore.SaveBooks(_bookManager.GetBooks());
         } while (option != 0);
     }
 

@@ -44,7 +44,7 @@ public class BookManager(LoanManager loanManager)
             return;
         }
 
-        foreach (var book in _books.Values)
+        foreach (var book in _books.Values.OrderBy(book => book.Title, StringComparer.InvariantCultureIgnoreCase))
         {
             Console.WriteLine(DescribeBook(book));
         }
